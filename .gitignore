@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+env/
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
+# Mac or Linux
+.DS_Store
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
