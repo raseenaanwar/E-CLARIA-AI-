@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: eclaria_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: eclaria_db
+      POSTGRES_USER: eclaria_user
+      POSTGRES_PASSWORD: eclaria_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - eclaria_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U eclaria_user -d eclaria_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: eclaria_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - eclaria_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Main Application
+  app:
+    build: .
+    container_name: eclaria_app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://eclaria_user:eclaria_password@db:5432/eclaria_db
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - LLAMA_MODEL=${LLAMA_MODEL:-llama3-8b-8192}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./app:/app/app
+      - ./tests:/app/tests
+    networks:
+      - eclaria_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Test Runner (for running tests in isolated environment)
+  test:
+    build: .
+    container_name: eclaria_test
+    environment:
+      - DATABASE_URL=postgresql://eclaria_user:eclaria_password@db:5432/eclaria_test_db
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - LLAMA_MODEL=${LLAMA_MODEL:-llama3-8b-8192}
+      - TESTING=true
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./app:/app/app
+      - ./tests:/app/tests
+    networks:
+      - eclaria_network
+    command: ["python", "-m", "pytest", "tests/", "-v"]
+    profiles:
+      - testing
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  eclaria_network:
+    driver: bridge
