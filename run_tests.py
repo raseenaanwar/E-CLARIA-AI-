@@ -10,6 +10,10 @@ This script provides various options for running tests including:
 - Performance tests
 - Test discovery
 
+Requirements:
+    - Python 3.12+
+    - Docker and Docker Compose (for containerized testing)
+
 Usage:
     python run_tests.py                 # Run all tests
     python run_tests.py --unit          # Run only unit tests

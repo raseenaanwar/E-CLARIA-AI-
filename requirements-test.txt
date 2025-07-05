@@ -1,4 +1,4 @@
-# Testing dependencies
+# Testing dependencies (Python 3.12+ compatible)
 pytest>=7.4.0
 pytest-asyncio>=0.21.0
 pytest-cov>=4.1.0
@@ -6,46 +6,54 @@ pytest-mock>=3.11.0
 pytest-xdist>=3.3.0
 pytest-html>=3.2.0
 pytest-timeout>=2.1.0
+pytest-sugar>=0.9.7
 
-# Test client and mocking
-httpx>=0.24.0
+# Test client and mocking (Python 3.12+ compatible)
+httpx>=0.25.0
 requests-mock>=1.11.0
 responses>=0.23.0
 
-# Factory for test data
+# Factory for test data (Python 3.12+ compatible)
 factory-boy>=3.3.0
-faker>=19.0.0
+faker>=20.0.0
 
-# Database testing
+# Database testing (Python 3.12+ compatible)
 pytest-postgresql>=5.0.0
 pytest-sqlalchemy>=0.2.0
 
-# Performance testing
+# Performance testing (Python 3.12+ compatible)
 pytest-benchmark>=4.0.0
 
-# Load testing
-locust>=2.15.0
+# Load testing (Python 3.12+ compatible)
+locust>=2.17.0
 
 # API testing
 tavern>=2.0.0
 
-# Security testing
-bandit>=1.7.0
+# Security testing (Python 3.12+ compatible)
+bandit>=1.7.5
 safety>=2.3.0
 
-# Code quality
-flake8>=6.0.0
-black>=23.0.0
+# Code quality (Python 3.12+ compatible)
+flake8>=6.1.0
+black>=23.9.0
 isort>=5.12.0
-mypy>=1.5.0
+mypy>=1.6.0
+ruff>=0.1.0
 
-# Coverage reporting
-coverage>=7.0.0
+# Coverage reporting (Python 3.12+ compatible)
+coverage>=7.3.0
 codecov>=2.1.0
 
-# Documentation testing
-sphinx>=7.0.0
+# Documentation testing (Python 3.12+ compatible)
+sphinx>=7.2.0
 sphinx-rtd-theme>=1.3.0
 
-# Environment management for tests
+# Environment management for tests (Python 3.12+ compatible)
 python-dotenv>=1.0.0
+
+# Additional Python 3.12 specific testing tools
+pytest-order>=1.1.0
+pytest-clarity>=1.0.1
+pytest-emoji>=0.2.0
+pytest-json-report>=1.5.0

@@ -19,7 +19,7 @@ This document provides comprehensive instructions for setting up Docker, running
 ### Prerequisites
 
 - Docker and Docker Compose installed
-- Python 3.11+ (for local development)
+- Python 3.12+ (for local development)
 - Git
 
 ### 1. Clone and Setup
@@ -384,7 +384,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11'
+        python-version: '3.12'
     
     - name: Install dependencies
       run: |
