@@ -22,14 +22,9 @@ class NonProfitProfile(Base):
     service_tags = Column(String, nullable=True)  
     sustainability_practices = Column(Text, nullable=True)  
     strategies = relationship("Strategy", back_populates="profile")
+    operating_years = Column(Integer, nullable=True)
 
-# class Strategy(Base):
-#     __tablename__ = "strategies"
-#     id = Column(Integer, primary_key=True, index=True)
-#     profile_id = Column(Integer, ForeignKey("nonprofit_profiles.id"))
-#     title = Column(String)
-#     content = Column(Text)
-#     created_at = Column(DateTime, default=datetime.utcnow)
+
 
 class Strategy(Base):
     __tablename__ = "strategies"
@@ -40,3 +35,44 @@ class Strategy(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     profile = relationship("NonProfitProfile", back_populates="strategies")
+
+
+class OutreachDraft(Base):
+    __tablename__ = "outreach_drafts"
+    id = Column(Integer, primary_key=True, index=True)
+    profile_id = Column(Integer, ForeignKey("nonprofit_profiles.id"))
+    title = Column(String)
+    content = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Question(Base):
+    __tablename__ = "questions"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    title = Column(String, index=True)
+    content = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    tags = Column(String, nullable=True)
+
+    user = relationship("User")
+    answers = relationship("Answer", back_populates="question")
+
+class Answer(Base):
+    __tablename__ = "answers"
+    id = Column(Integer, primary_key=True, index=True)
+    question_id = Column(Integer, ForeignKey("questions.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+    content = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    question = relationship("Question", back_populates="answers")
+    user = relationship("User")
+
+class Points(Base):
+    __tablename__ = "points"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    score = Column(Integer, default=0)
+
+    user = relationship("User")
