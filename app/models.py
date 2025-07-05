@@ -21,11 +21,22 @@ class NonProfitProfile(Base):
     fundraising_goals = Column(Text, nullable=True)  
     service_tags = Column(String, nullable=True)  
     sustainability_practices = Column(Text, nullable=True)  
+    strategies = relationship("Strategy", back_populates="profile")
+
+# class Strategy(Base):
+#     __tablename__ = "strategies"
+#     id = Column(Integer, primary_key=True, index=True)
+#     profile_id = Column(Integer, ForeignKey("nonprofit_profiles.id"))
+#     title = Column(String)
+#     content = Column(Text)
+#     created_at = Column(DateTime, default=datetime.utcnow)
 
 class Strategy(Base):
     __tablename__ = "strategies"
     id = Column(Integer, primary_key=True, index=True)
     profile_id = Column(Integer, ForeignKey("nonprofit_profiles.id"))
-    title = Column(String)
-    content = Column(Text)
+    title = Column(String, nullable=True)       # optional, can store short description
+    content = Column(Text, nullable=False)      # the generated strategy text
     created_at = Column(DateTime, default=datetime.utcnow)
+
+    profile = relationship("NonProfitProfile", back_populates="strategies")

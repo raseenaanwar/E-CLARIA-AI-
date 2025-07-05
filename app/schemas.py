@@ -1,6 +1,8 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List
 
+# ---------------------- USER ----------------------
+
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
@@ -14,23 +16,11 @@ class UserOut(BaseModel):
     id: int
     email: EmailStr
     name: str
+
     class Config:
         orm_mode = True
 
-class ProfileCreate(BaseModel):
-    mission: str
-    goals: str
-    sustainability_data: Optional[str]
-
-class StrategyIn(BaseModel):
-    prompt: str
-
-class StrategyOut(BaseModel):
-    id: int
-    title: str
-    content: str
-    class Config:
-        orm_mode = True
+# ---------------------- NONPROFIT PROFILE ----------------------
 
 class NonProfitProfileCreate(BaseModel):
     user_id: int
@@ -55,7 +45,16 @@ class NonProfitProfileOut(BaseModel):
     class Config:
         orm_mode = True
 
+# ---------------------- STRATEGY ----------------------
 
 class StrategyRequest(BaseModel):
     profile_id: int
     query: str
+
+class StrategyOut(BaseModel):
+    id: int
+    title: str
+    content: str
+
+    class Config:
+        orm_mode = True
