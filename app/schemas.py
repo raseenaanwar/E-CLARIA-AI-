@@ -18,7 +18,7 @@ class UserOut(BaseModel):
     name: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # ---------------------- NONPROFIT PROFILE ----------------------
 
@@ -43,7 +43,7 @@ class NonProfitProfileOut(BaseModel):
     sustainability_practices: Optional[str]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # ---------------------- STRATEGY ----------------------
 
@@ -57,4 +57,4 @@ class StrategyOut(BaseModel):
     content: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True

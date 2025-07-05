@@ -12,10 +12,23 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 LLAMA_MODEL = os.getenv("LLAMA_MODEL", "llama3-8b-8192")
 
 # Initialize Groq's OpenAI-compatible client
-client = OpenAI(
-    base_url="https://api.groq.com/openai/v1",
-    api_key=GROQ_API_KEY
-)
+def get_client():
+    """Get OpenAI client instance with proper configuration."""
+    if not GROQ_API_KEY:
+        return None
+
+    try:
+        return OpenAI(
+            base_url="https://api.groq.com/openai/v1",
+            api_key=GROQ_API_KEY,
+            timeout=30.0
+        )
+    except Exception as e:
+        print(f"Failed to initialize OpenAI client: {e}")
+        return None
+
+# Get client instance
+client = get_client()
 
 def generate_strategy(profile, query: str) -> dict:
     """
@@ -48,7 +61,16 @@ def generate_strategy(profile, query: str) -> dict:
 
     # Call Groq's LLaMA model
     try:
-        response = client.chat.completions.create(
+        # Get fresh client instance if needed
+        current_client = client if client else get_client()
+
+        if not current_client:
+            return {
+                "title": "Strategy generation failed",
+                "content": "OpenAI client not available. Please check your GROQ_API_KEY."
+            }
+
+        response = current_client.chat.completions.create(
             model=LLAMA_MODEL,
             messages=[
                 {"role": "system", "content": "You are an expert AI fundraising coach."},
