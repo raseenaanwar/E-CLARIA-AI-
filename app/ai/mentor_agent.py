@@ -37,3 +37,18 @@ Only return clean insights. Remove personal details.
         # You could store this in DB for training, metrics, or dashboard later
     except Exception as e:
         print("AI Error:", e)
+
+
+
+
+def call_llm(prompt: str) -> str:
+    response = client.chat.completions.create(
+        model=LLAMA_MODEL,
+        messages=[
+            {"role": "system", "content": "You help nonprofit mentors reply to mentees."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.7,
+        max_tokens=300
+    )
+    return response.choices[0].message.content.strip()
