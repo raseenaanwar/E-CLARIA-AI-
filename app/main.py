@@ -17,6 +17,8 @@ from app.routes import auth, profile, strategy
 from app import models, database
 from app.routes import outreach
 from app.routes import community
+from app.routes import mentorship
+
 
 models.Base.metadata.create_all(bind=database.engine)
 
@@ -36,3 +38,4 @@ app.include_router(profile.router, prefix="/api")
 app.include_router(strategy.router, prefix="/api")
 app.include_router(outreach.router,prefix="/api")
 app.include_router(community.router,prefix="/api")
+app.include_router(mentorship.router, prefix="/api") 
