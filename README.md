@@ -1,4 +1,4 @@
-# 🤖 E-CLARIA: Empowering Charities with AI-Driven Fundraising
+# 🤖 E-CLARIA: Empowering Charity Leaders & Autonomous Resource Impact Assistant
 
 E-CLARIA is an enterprise-grade AI platform designed to help charity leaders and nonprofit professionals craft intelligent fundraising strategies, collaborate with peers, and build sustainable impact — all powered by the latest in Groq + LLaMA 3/3.1 technology.
 
