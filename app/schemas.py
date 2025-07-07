@@ -205,6 +205,7 @@ class StrategyOut(BaseModel):
     id: int
     title: str
     content: str
+    audio_url: str | None  # NEW
 
     class Config:
         from_attributes = True
