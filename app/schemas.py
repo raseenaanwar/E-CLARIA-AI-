@@ -163,6 +163,8 @@ class UserOut(BaseModel):
     id: int
     email: EmailStr
     name: str
+    profile_id: Optional[int] = None
+    is_mentor: Optional[bool] = None
 
     class Config:
         from_attributes = True

@@ -77,5 +77,22 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.get("/me", response_model=schemas.UserOut)
-def read_current_user(current_user: models.User = Depends(get_current_user)):
-    return current_user
+def read_current_user(current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    # Create a dictionary with the user data
+    user_data = {
+        "id": current_user.id,
+        "email": current_user.email,
+        "name": current_user.name
+    }
+    
+    # Check if the user has a profile
+    profile = db.query(models.NonProfitProfile).filter(models.NonProfitProfile.user_id == current_user.id).first()
+    if profile:
+        user_data["profile_id"] = profile.id
+    
+    # Check if the user is a mentor
+    mentor = db.query(models.MentorProfile).filter(models.MentorProfile.user_id == current_user.id).first()
+    if mentor:
+        user_data["is_mentor"] = True
+    
+    return user_data
